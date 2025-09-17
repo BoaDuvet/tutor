@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://jdx4nwyquevn"]
+[gd_scene load_steps=10 format=3 uid="uid://jdx4nwyquevn"]
 
 [ext_resource type="Texture2D" uid="uid://clg0jf4vqhm00" path="res://art/playerGrey_up1.png" id="1_uroli"]
 [ext_resource type="Script" uid="uid://cyam7fmi16mto" path="res://player.gd" id="1_y8m3k"]
@@ -35,6 +35,10 @@ animations = [{
 radius = 27.0
 height = 70.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y8m3k"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y8m3k"]
+
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="Area2D" parent="."]
@@ -43,9 +47,24 @@ script = ExtResource("1_y8m3k")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+position = Vector2(0, 1)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_jcjqo")
-animation = &"up"
+animation = &"walk"
+frame = 1
+frame_progress = 0.19929576
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_5kp0j")
+
+[node name="Mob" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mob"]
+shape = SubResource("CapsuleShape2D_y8m3k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Mob"]
+sprite_frames = SubResource("SpriteFrames_y8m3k")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Mob"]
+
+[connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
