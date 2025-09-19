@@ -1,10 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://jdx4nwyquevn"]
+[gd_scene load_steps=17 format=3 uid="uid://jdx4nwyquevn"]
 
 [ext_resource type="Texture2D" uid="uid://clg0jf4vqhm00" path="res://art/playerGrey_up1.png" id="1_uroli"]
 [ext_resource type="Script" uid="uid://cyam7fmi16mto" path="res://player.gd" id="1_y8m3k"]
 [ext_resource type="Texture2D" uid="uid://b3sjlal2wdx2g" path="res://art/playerGrey_up2.png" id="2_y8m3k"]
 [ext_resource type="Texture2D" uid="uid://c324l1pcomtet" path="res://art/playerGrey_walk1.png" id="3_us6v1"]
 [ext_resource type="Texture2D" uid="uid://cmi1n6dyisey" path="res://art/playerGrey_walk2.png" id="4_xuejx"]
+[ext_resource type="Texture2D" uid="uid://b2aikwilxvmvy" path="res://art/enemyFlyingAlt_1.png" id="6_blw28"]
+[ext_resource type="Script" uid="uid://ds33nrb0kw607" path="res://mob.gd" id="6_qfqoi"]
+[ext_resource type="Texture2D" uid="uid://cn66howff5r7e" path="res://art/enemyWalking_1.png" id="6_us6v1"]
+[ext_resource type="Texture2D" uid="uid://wamh2aav3ehh" path="res://art/enemyFlyingAlt_2.png" id="7_qfqoi"]
+[ext_resource type="Texture2D" uid="uid://c7ojv6xaeewjp" path="res://art/enemyWalking_2.png" id="7_xuejx"]
+[ext_resource type="Texture2D" uid="uid://b4fl4dtlt8q7s" path="res://art/enemySwimming_1.png" id="8_55igd"]
+[ext_resource type="Texture2D" uid="uid://dh2w6cdogfg0s" path="res://art/enemySwimming_2.png" id="9_xdd2e"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jcjqo"]
 animations = [{
@@ -35,14 +42,50 @@ animations = [{
 radius = 27.0
 height = 70.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y8m3k"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blw28"]
+radius = 37.0
+height = 94.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y8m3k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_blw28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qfqoi")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_55igd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_xdd2e")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_us6v1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xuejx")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" type="Area2D" parent="."]
-position = Vector2(43, 44)
+position = Vector2(304, 85)
 script = ExtResource("1_y8m3k")
 metadata/_edit_group_ = true
 
@@ -50,21 +93,30 @@ metadata/_edit_group_ = true
 position = Vector2(0, 1)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_jcjqo")
-animation = &"walk"
-frame = 1
-frame_progress = 0.19929576
+animation = &"up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("CapsuleShape2D_5kp0j")
 
 [node name="Mob" type="RigidBody2D" parent="."]
+position = Vector2(153, 173)
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("6_qfqoi")
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Mob"]
-shape = SubResource("CapsuleShape2D_y8m3k")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_blw28")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Mob"]
+position = Vector2(-4, 0)
+scale = Vector2(0.75, 0.75)
 sprite_frames = SubResource("SpriteFrames_y8m3k")
+animation = &"swim"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Mob"]
+position = Vector2(2, -1)
+rect = Rect2(-54, -37, 99, 74)
 
 [connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
