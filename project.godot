@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="пробник"
-run/main_scene="uid://jdx4nwyquevn"
+run/main_scene="uid://ckbfx63qmtjxq"
 config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
